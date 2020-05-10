@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--scan:配置文件发生改变，将被重新加载，默认true。-->
+<!--debug: 当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。-->
+<!--scanPeriod: 设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。-->
+<configuration scan="true" debug="false">
+    <contextName>xygsb</contextName>
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径，下面的路劲会在src同级目录下生成一个home文件夹-->
+    <!--<property name="LOG_HOME" value="./home"/>-->
+    <!-- 子节点<appender>：负责写日志的组件，它有两个必要属性name和class。name指定appender名称，class指定appender的全限定名 -->
+    <!-- 控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{80} - %msg%n</pattern>
+        </encoder>
+
+        <!--日志颜色 -->
+        <encoder>
+            <!--<pattern>%d %p (%file:%line\)- %m%n</pattern>-->
+            <!--格式化输出：%d:表示日期    %thread:表示线程名     %-5level:级别从左显示5个字符宽度  %msg:日志消息    %n:是换行符-->
+            <pattern>%red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+    </root>
+    <!-- 对指定的包设定日志级别，主要目的是减少不必要的日志 -->
+    <!--可以对指定的包设置打印日志的级别、是否输出到控制台、以及是否输出到文件（如果要的话就添加appender-ref子节点就可以）
+    ，如果没有添加appender-ref子节点，就看additivity属性，为true：就是会用root下面的appender-ref的子节点，false：就是不会用root的自己有就用自己的没有就没有-->
+    <!--举个例子：root是info级别，logger是debug级别但是logger没有appender子节点，additivity属性为false，那么这个logger的日志不会打印控制台也不会输出到文件。
+    如果additivity属性为true，那么会引用root的appender效果。-->
+    <!--additivity一般为true-->
+    <logger name="com.roman.excel.demo.mapper" level="debug" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <!--<logger name="org.springframework" additivity="false" level="error" />-->
+    <!--<logger name="org.apache.catalina" additivity="false" level="error" />-->
+
+
+
+</configuration>
